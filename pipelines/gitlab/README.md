@@ -1,6 +1,6 @@
 # GitLab CI/CD Pipelines
 
-GitLab CI/CD pipelines for automatically versioning and deploying Itential Platform assets. These pipelines execute the shared scripts in `pipelines/scripts/` to handle version bumping and asset deployment.
+GitLab CI/CD pipelines for automatically versioning and deploying Itential Platform assets. These pipelines execute the shared scripts in `scripts/` to handle version bumping and asset deployment.
 
 ## Pipeline Jobs
 
@@ -29,7 +29,7 @@ Triggers on any tag push matching `v*` without an `-rc` suffix (e.g., `v1.1.0`).
 
 > **Note:** RC tags are internal artifacts created by the pipeline and do **not** trigger a new pipeline run. Only pushes to `main` and final release tags trigger pipelines.
 
-The job runs `pipelines/scripts/deploy.py` which connects to the target Itential Platform instance and imports all discovered assets.
+The job runs `scripts/deploy.py` which connects to the target Itential Platform instance and imports all discovered assets.
 
 ## Setup
 
@@ -44,12 +44,12 @@ The job runs `pipelines/scripts/deploy.py` which connects to the target Itential
 The `.gitlab-ci.yml` at the root of this repository is the pipeline definition. Copy it along with the shared scripts into your repository:
 
 ```bash
-mkdir -p <path-to-your-repo>/pipelines/scripts
+mkdir -p <path-to-your-repo>/scripts
 cp .gitlab-ci.yml <path-to-your-repo>/
-cp pipelines/scripts/* <path-to-your-repo>/pipelines/scripts/
+cp scripts/* <path-to-your-repo>/scripts/
 ```
 
-> **Note:** The pipeline references scripts at `pipelines/scripts/` by default. If you place them elsewhere, update the script paths in `.gitlab-ci.yml` accordingly.
+> **Note:** The pipeline references scripts at `scripts/` by default. If you place them elsewhere, update the script paths in `.gitlab-ci.yml` accordingly.
 
 ### 2. Create GitLab Environments
 
@@ -139,5 +139,5 @@ export CLIENT_SECRET="<client-secret>"
 export PROJECT_MEMBERS='[{"type":"account","username":"user@example.com","role":"admin"}]'
 
 pip install git+https://github.com/Itential/asyncplatform.git
-python pipelines/scripts/deploy.py <Staging|Production>
+python scripts/deploy.py <Staging|Production>
 ```

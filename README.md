@@ -10,9 +10,11 @@ A template repository that demonstrates how to manage Itential Platform assets u
 
 This repository uses a tag-based promotion model. CI/CD pipelines execute the shared scripts in `pipelines/scripts/` to automatically version, tag, and deploy assets across environments.
 
+> **Note:** Throughout this documentation, `main` is used as the default branch name. If your repository uses `master`, substitute `master` wherever `main` appears.
+
 ```text
- develop branch           main branch              Staging                Production
- ──────────────           ───────────              ───────                ──────────
+ develop branch       main/master branch           Staging                Production
+ ──────────────       ──────────────────           ───────                ──────────
        |                       |                      |                       |
    commit work                 |                      |                       |
        |                       |                      |                       |
