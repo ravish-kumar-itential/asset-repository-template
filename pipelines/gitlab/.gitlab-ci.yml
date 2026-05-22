@@ -10,10 +10,7 @@ stages:
   - tag
   - deploy
 
-# Equivalent to auto-rc-tag.yml.
 # Triggers on any push to master (i.e., after a MR is merged).
-# Unlike GitHub Actions, GitLab cannot natively filter by MR source branch
-# in a post-merge pipeline, so this runs on all pushes to master.
 create-rc-tag:
   stage: tag
   image: alpine:latest
@@ -26,7 +23,7 @@ create-rc-tag:
     - git config user.name "gitlab-ci[bot]"
     - git config user.email "gitlab-ci[bot]@users.noreply.gitlab.com"
     # CI_ACCESS_TOKEN must be a GitLab Project Access Token with write_repository scope,
-    # stored as a protected/masked CI variable (equivalent to GitHub's RC_TAG_PAT).
+    # stored as a protected/masked CI variable.
     - git remote set-url origin "https://oauth2:${CI_ACCESS_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
   script:
     - bash scripts/bump-version.sh
