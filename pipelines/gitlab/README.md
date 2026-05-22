@@ -132,6 +132,8 @@ Creating the release pushes the tag, which triggers the production deployment pi
 
 ## Running the Deploy Script Locally
 
+> **Note:** Run this script from the repository root directory, not from within `scripts/`.
+
 ```bash
 export HOST="<platform-hostname>"
 export CLIENT_ID="<client-id>"
