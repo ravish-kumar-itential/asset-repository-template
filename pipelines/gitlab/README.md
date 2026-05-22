@@ -6,7 +6,7 @@ GitLab CI/CD pipelines for automatically versioning and deploying Itential Platf
 
 ### Automatic RC Tagging (`create-rc-tag`)
 
-Triggers on any push to `main` (i.e., after a merge request is merged). It automatically:
+Triggers on any push to `master` (i.e., after a merge request is merged). It automatically:
 
 1. Determines the version bump type by scanning commit messages using [Conventional Commits](https://www.conventionalcommits.org/)
    - `feat!:` or `BREAKING CHANGE:` &rarr; **major** bump
@@ -16,7 +16,7 @@ Triggers on any push to `main` (i.e., after a merge request is merged). It autom
 
 ### Staging Deployment (`deploy-staging`)
 
-Runs immediately after `create-rc-tag` on every push to `main`. Connects to the staging Itential Platform instance and imports all discovered assets.
+Runs immediately after `create-rc-tag` on every push to `master`. Connects to the staging Itential Platform instance and imports all discovered assets.
 
 ### Production Deployment (`deploy-production`)
 
@@ -24,10 +24,10 @@ Triggers on any tag push matching `v*` without an `-rc` suffix (e.g., `v1.1.0`).
 
 | Tag pattern | Example | Target environment |
 | --- | --- | --- |
-| Contains `-rc` | `v1.1.0-rc.1` | Staging (created automatically on push to main) |
+| Contains `-rc` | `v1.1.0-rc.1` | Staging (created automatically on push to master) |
 | No `-rc` suffix | `v1.1.0` | Production |
 
-> **Note:** RC tags are internal artifacts created by the pipeline and do **not** trigger a new pipeline run. Only pushes to `main` and final release tags trigger pipelines.
+> **Note:** RC tags are internal artifacts created by the pipeline and do **not** trigger a new pipeline run. Only pushes to `master` and final release tags trigger pipelines.
 
 The job runs `scripts/deploy.py` which connects to the target Itential Platform instance and imports all discovered assets.
 
@@ -104,12 +104,12 @@ cat members.json | python3 -m json.tool --compact
 ### To Staging (automatic)
 
 1. Commit changes to `develop` using [Conventional Commits](https://www.conventionalcommits.org/) (e.g., `feat: add vlan provisioning use case`)
-2. Open a merge request from `develop` to `main` and merge it
+2. Open a merge request from `develop` to `master` and merge it
 3. The `create-rc-tag` job creates an RC tag and `deploy-staging` deploys to staging in the same pipeline run
 
 ### To Staging (manual)
 
-Trigger a pipeline manually on the `main` branch from **CI/CD** > **Pipelines** > **Run pipeline** in your GitLab repository, or push any commit to `main`.
+Trigger a pipeline manually on the `master` branch from **CI/CD** > **Pipelines** > **Run pipeline** in your GitLab repository, or push any commit to `master`.
 
 ### To Production
 
@@ -124,7 +124,7 @@ Or create a release in GitLab:
 
 1. Go to **Deploy** > **Releases** > **Create a new release** in your GitLab repository
 2. Create a new tag using the version number (e.g., `v1.1.0`) — do not include the `-rc` suffix
-3. Set the target branch to `main`
+3. Set the target branch to `master`
 4. Add release notes describing the changes
 5. Click **Create release**
 
@@ -141,5 +141,6 @@ export CLIENT_SECRET="<client-secret>"
 export PROJECT_MEMBERS='[{"type":"account","username":"user@example.com","role":"admin"}]'
 
 pip install git+https://github.com/Itential/asyncplatform.git
+cd /path/to/repo/root  # navigate to the root of your repository
 python scripts/deploy.py <Staging|Production>
 ```
